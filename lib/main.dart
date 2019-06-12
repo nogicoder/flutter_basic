@@ -8,6 +8,10 @@ class MyApp extends StatelessWidget {
   build(context) {
     return MaterialApp(
       title: "Name Generator",
+      theme: ThemeData(
+        primaryColor: Colors.deepOrange,
+        scaffoldBackgroundColor: Colors.yellow[100],
+      ),
       home: WordGen()
     );
   }
@@ -18,14 +22,50 @@ class WordGen extends StatefulWidget {
 }
 
 class WordGenState extends State<WordGen> {
+  void _displayFavourites() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          
+          final tiles = _favourites.map(
+            (WordPair pair) {
+              return ListTile(
+                title: Text(
+                  pair.asPascalCase,
+                  style: TextStyle(fontSize: 18, color: Colors.red)
+                )
+              );
+            }
+          );
+
+          final divided = ListTile
+          .divideTiles(
+            context: context,
+            tiles: tiles
+          )
+          .toList();
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Favourites"),
+            ),
+            body: ListView(children: divided)
+          );
+        } 
+      )
+    );
+  }
+
   @override
   build(context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Name Generator"),
-        backgroundColor: Color(0xFFFF9000),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.list),)
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: _displayFavourites
+          )
         ],
       ),
       body: _createWordList()
@@ -34,14 +74,13 @@ class WordGenState extends State<WordGen> {
 
   final _collections = <WordPair>[];
   final _favourites = Set<WordPair>();
-  final _bookmark = Icons.bookmark;
 
   _generateTile(WordPair pair) {
     final favoured = _favourites.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
-        style: TextStyle(fontSize: 18)
+        style: TextStyle(fontSize: 18, color: Colors.red)
       ),
       trailing: Icon(
         favoured ? Icons.bookmark : Icons.bookmark_border,
