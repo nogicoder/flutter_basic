@@ -4,11 +4,48 @@ import "package:flutter_bloc/flutter_bloc.dart";
 
 
 // Main App
-void main() => runApp(MyApp());
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(
+    BlocProviderTree(
+      blocProviders: [
+        BlocProvider<ThemeBloc>(
+          builder: (context) => ThemeBloc()
+        ),
+        BlocProvider<CounterBloc>(
+          builder: (context) => CounterBloc()
+        )
+      ],
+      child: MyApp()
+    )
+  );
+}
 
-// BLoC Layer:
+// -----------------------------BLoC Layer-----------------------------
 
-// Counter event
+// Theme Event
+enum ThemeEvent { changeTheme }
+
+class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
+  
+  // Set initial Theme
+  @override
+  ThemeData get initialState => ThemeData.light();
+
+  // Map state to an event
+  @override
+  Stream<ThemeData> mapEventToState(ThemeEvent event) async* {
+    switch(event) {
+      case ThemeEvent.changeTheme:
+      yield currentState == ThemeData.dark()
+        ? ThemeData.light()
+        : ThemeData.dark();
+      break;
+    }
+  }
+}
+
+// Counter Event
 enum CounterEvent { increment, decrement }
 
 // Counter State: Represent by an int -> no class needed
@@ -30,30 +67,58 @@ class CounterBloc extends Bloc<CounterEvent, int> {
         yield currentState + 1;
         break;
       case CounterEvent.decrement:
-        if (currentState > 0) {
-          yield currentState - 1;
-        } else {
-          yield currentState;
-        }
+        yield currentState > 0
+          ? currentState - 1
+          : currentState;
         break;
     }
   }
 }
 
-// Representation Layer:
+// Bloc Delegate
+class SimpleBlocDelegate extends BlocDelegate {
+  
+  @override
+  void onEvent(Bloc bloc, Object event) {
+    super.onEvent(bloc, event);
+    print(event);
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+    super.onError(bloc, error, stacktrace);
+    print(error);
+  }
+}
+
+
+// --------------------------Representation Layer--------------------------
 
 // Main App Widget
 class MyApp extends StatelessWidget {
   // Rendering the App
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Counter App",
+    final ThemeBloc _themeBloc = BlocProvider.of<ThemeBloc>(context);
 
-        // Mapping a CounterBloc instance to the subtree using BlocProvider
-        // Handling the event with dispose() -> no need for StatefulWidget
-        home: BlocProvider<CounterBloc>(
-            builder: (context) => CounterBloc(), child: CounterScreen()));
+    return BlocBuilder(
+      bloc: _themeBloc,
+      builder: (_, ThemeData theme) {
+        return MaterialApp(
+          title: "Counter App",
+          theme: theme,
+          // Mapping a CounterBloc instance to the subtree using BlocProvider
+          // Handling the event with dispose() -> no need for StatefulWidget
+          home: CounterScreen()
+        );
+      }
+    );
   }
 }
 
@@ -63,12 +128,23 @@ class CounterScreen extends StatelessWidget {
   // Rendering the interface
   @override
   Widget build(BuildContext context) {
-    
+
     // Define the Bloc instance
     final CounterBloc _counterBloc = BlocProvider.of<CounterBloc>(context);
+    final ThemeBloc _themeBloc = BlocProvider.of<ThemeBloc>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Counter App")),
+      appBar: AppBar(
+        title: Text("Counter App"),
+        actions: <Widget>[
+          // Change theme of the App
+          FlatButton(
+            child: Icon(Icons.tab),
+            onPressed: () {_themeBloc.dispatch(ThemeEvent.changeTheme);
+            },
+          )
+        ],
+      ),
       
       // Using the BlocBuilder to provide the state to the rendered widget
       body: BlocBuilder<CounterEvent, int>(
@@ -80,7 +156,7 @@ class CounterScreen extends StatelessWidget {
         builder: (BuildContext context, int count) {
           
           // Access through $ notation
-          return Center(child: Text("$count", style: TextStyle(fontSize: 30, color: Colors.black)));
+          return Center(child: Text("$count", style: TextStyle(fontSize: 30)));
         },
       ),
 
@@ -111,8 +187,7 @@ class CounterScreen extends StatelessWidget {
             onPressed: () {
               _counterBloc.dispatch(CounterEvent.increment);
             },
-          ),
-          
+          )
         ],
       )
     );
