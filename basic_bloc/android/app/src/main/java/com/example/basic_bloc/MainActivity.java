@@ -1,4 +1,4 @@
-package com.example.flutter_counter;
+package com.example.basic_bloc;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
