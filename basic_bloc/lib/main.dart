@@ -22,10 +22,8 @@ Color initialBackgroundColor = Colors.blueGrey;
 
 /// This widget render the whole app interface using MaterialApp widget.
 class Counter extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         title: "Counter App",
         theme: ThemeData(
@@ -41,7 +39,6 @@ class Counter extends StatelessWidget {
 
 /// This widget hold a State widget that render the main section of the app.
 class CounterWidget extends StatefulWidget {
-
   final String title;
   final int initialCounter;
   final Color initialColor;
@@ -67,7 +64,6 @@ class _CounterWidgetState extends State<CounterWidget> {
   /// This function return a Container widget composed of a Text and the Counter Value to be rendered later in the build method of the class.
   /// @param data: Value of snapshot.data in which snapshot is an AsyncSnapshot object output from the Stream
   Widget displayCounter(data) {
-
     return Container(
         decoration: BoxDecoration(color: data[1]),
         child: Center(
@@ -83,25 +79,22 @@ class _CounterWidgetState extends State<CounterWidget> {
   /// @param icon: The icon to be displayed in the button. Should be Icons.add or Icons.remove
   /// @param action: The action to be taken when pressing the button. Should be a method of the BLoC (incrementCounter or decrementCounter)
   Widget createButton({icon, action}) {
-
     return HoldDetector(
-          onHold: action,
-          holdTimeout: Duration(milliseconds: 100),
-          enableHapticFeedback: true,
-          child: FloatingActionButton(
-              backgroundColor: Colors.brown[800],
-              child: Icon(icon),
-              onPressed: action));
+        onHold: action,
+        holdTimeout: Duration(milliseconds: 100),
+        enableHapticFeedback: true,
+        child: FloatingActionButton(
+            backgroundColor: Colors.brown[800],
+            child: Icon(icon),
+            onPressed: action));
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           title: Center(child: Text(widget.title)),
         ),
-
         body: StreamBuilder(
             initialData: [widget.initialCounter, widget.initialColor],
             stream: _bloc.getStream,
@@ -111,7 +104,6 @@ class _CounterWidgetState extends State<CounterWidget> {
               }
               return displayCounter(snapshot.data);
             }),
-
         floatingActionButton: Padding(
             padding: EdgeInsets.only(bottom: 10),
             child: Column(
@@ -119,7 +111,8 @@ class _CounterWidgetState extends State<CounterWidget> {
                 children: <Widget>[
                   createButton(icon: Icons.add, action: _bloc.incrementCounter),
                   SizedBox(height: 10),
-                  createButton(icon: Icons.remove, action: _bloc.decrementCounter),
+                  createButton(
+                      icon: Icons.remove, action: _bloc.decrementCounter),
                 ])));
   }
 }
