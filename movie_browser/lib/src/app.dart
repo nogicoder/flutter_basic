@@ -7,10 +7,14 @@ class MovieBrowser extends StatelessWidget {
     return MaterialApp(
         title: "Movie Browser",
         theme: ThemeData(
-            primaryColor: Colors.blueGrey[900],
-            scaffoldBackgroundColor: Colors.black,
-            textTheme:
-                TextTheme(body1: TextStyle(color: Colors.blueAccent[800]))),
+          brightness: Brightness.dark,
+          accentColor: Colors.cyan,
+          fontFamily: 'Montserrat',
+          primaryColor: Colors.blueGrey[900],
+          scaffoldBackgroundColor: Colors.black,
+          textTheme: TextTheme(
+            title: TextStyle(fontSize: 25.0, color: Colors.yellow),
+            body1: TextStyle(fontSize: 20.0, color: Colors.blue[400]))),
         home: MovieList());
   }
 }

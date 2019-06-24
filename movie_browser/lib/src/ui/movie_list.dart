@@ -10,14 +10,7 @@ class MovieList extends StatefulWidget {
 
 class _MovieListState extends State<MovieList> {
   MovieListBloc _bloc = MovieListBloc();
-
-  showMovieDetail(context, movie) {
-    Navigator.push(
-      context, 
-      MaterialPageRoute(builder: (context) => MovieDetail(movie))
-    );
-  }
-
+  
   displayMovies(context, data) {
     return GridView.count(
         crossAxisCount: 2,
@@ -27,12 +20,17 @@ class _MovieListState extends State<MovieList> {
         mainAxisSpacing: 5.0,
         children: List.generate(data.length, (index) {
           return GestureDetector(
-            child: Image.network(
-              "https://image.tmdb.org/t/p/w185${data[index].posterPath}",
-              fit: BoxFit.cover,
-            ),
-            onTap: showMovieDetail(context, data[index])
-          );
+              child: Image.network(
+                "https://image.tmdb.org/t/p/w185${data[index].posterPath}",
+                fit: BoxFit.cover,
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            MovieDetail(data[index])));
+              });
         }));
   }
 
@@ -53,8 +51,7 @@ class _MovieListState extends State<MovieList> {
     return Scaffold(
         appBar: AppBar(
             title: Center(
-                child: Text("Most Popular Movies",
-                    style: TextStyle(fontSize: 30)))),
+                child: Text("Most Popular Movies", style: Theme.of(context).textTheme.title))),
         body: StreamBuilder(
             stream: _bloc.movieStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
