@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_browser/src/ui/movie_list.dart';
 
+
+/// This is the main Widget of the app.
+/// This widget displays a MaterialApp and set basic configs for the child widgets
 class MovieBrowser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

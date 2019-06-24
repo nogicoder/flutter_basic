@@ -1,7 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:movie_browser/src/resources/repositories.dart';
 
-
+// The BLoC of each movie's UI
 class MovieDetailBloc {
 
   final _repository = Repository();

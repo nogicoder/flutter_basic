@@ -1,3 +1,4 @@
+// This is the Movie model initialized after the item in the movie list fetched from the API
 class Movie {
   int id;
   String posterPath;

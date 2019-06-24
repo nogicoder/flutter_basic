@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:movie_browser/src/bloc/movie_list_bloc.dart';
 import 'package:movie_browser/src/ui/movie_detail.dart';
 
+
+/// This widget displays the main screen with a list of movie
 class MovieList extends StatefulWidget {
   @override
   _MovieListState createState() => _MovieListState();
 }
 
 class _MovieListState extends State<MovieList> {
+
   MovieListBloc _bloc = MovieListBloc();
   
   displayMovies(context, data) {
