@@ -8,6 +8,7 @@ class MovieBrowser extends StatelessWidget {
         title: "Movie Browser",
         theme: ThemeData(
             primaryColor: Colors.blueGrey[900],
+            scaffoldBackgroundColor: Colors.black,
             textTheme:
                 TextTheme(body1: TextStyle(color: Colors.blueAccent[800]))),
         home: MovieList());

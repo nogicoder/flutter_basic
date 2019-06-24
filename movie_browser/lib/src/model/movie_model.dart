@@ -1,24 +1,21 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 
 class MovieList {
-  List<Movie> movieList;
-  String response;
-
-  MovieList(response) {
-    List<Movie> _temp;
-    List<Map<String, dynamic>> results = json.decode(response)['results'];
+  List<Movie> getAllMovies(response) {
+    List<Movie> _movieList = List<Movie>();
+    var results = json.decode(response)['results'];
 
     for (Map<String, dynamic> result in results) {
-      _temp.add(Movie(result));
+      Movie _movie = Movie(result);
+
+      _movieList.add(_movie);
     }
 
-    movieList = _temp;
+    return _movieList;
   }
 }
 
 class Movie {
-  Map<String, dynamic> result;
   int id;
   String posterPath;
   String title;
@@ -27,7 +24,7 @@ class Movie {
   int averageVote;
   int voteCount;
 
-  Movie(this.result) {
+  Movie(result) {
     id = result['id'];
     posterPath = result['poster_path'];
     title = result['title'];
