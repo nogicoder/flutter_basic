@@ -14,7 +14,6 @@ class MovieDetail extends StatefulWidget {
 }
 
 class _MovieDetailState extends State<MovieDetail> {
-
   MovieDetailBloc _bloc = MovieDetailBloc();
 
   @override
@@ -39,7 +38,8 @@ class _MovieDetailState extends State<MovieDetail> {
                   title: Text(
                       "${widget.data.title} (${widget.data.releaseDate.substring(0, 4)})",
                       style: Theme.of(context).textTheme.title)),
-              body: Column(
+              body: SingleChildScrollView(
+                  child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Image.network(
@@ -66,7 +66,7 @@ class _MovieDetailState extends State<MovieDetail> {
                         }
                       })
                 ],
-              ));
+              )));
         });
   }
 }

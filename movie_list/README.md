@@ -38,6 +38,8 @@ Data Provider -> Repository (handling API call and raw data process) -> BLoC (pr
 
 ## Instruction
 
-The main screen displays the list of most popular movies.
+The main screen displays the list of most popular movies. When reach a third of the list, the movie list will continue displaying (Infinite list).
+
+There's an arrow button on the AppBar to navigate back to top of the app.
 
 You can click on each movie to read the description and watch the trailer.

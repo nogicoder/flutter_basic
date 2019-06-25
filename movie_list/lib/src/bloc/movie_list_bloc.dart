@@ -6,11 +6,13 @@ import 'package:movie_browser/src/resources/repositories.dart';
 class MovieListBloc {
   final _repository = Repository();
   final _controller = PublishSubject<List<Movie>>();
+  int _counter = 0;
 
   Observable<List<Movie>> get movieStream => _controller.stream;
 
   fetchAllMovies() async {
-    List<Movie> movieList = await _repository.fetchMovie();
+    _counter++;
+    List<Movie> movieList = await _repository.fetchMovie(_counter);
 
     _controller.sink.add(movieList);
   }

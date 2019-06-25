@@ -12,8 +12,19 @@ class MovieList extends StatefulWidget {
 class _MovieListState extends State<MovieList> {
   MovieListBloc _bloc = MovieListBloc();
 
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent / 3 &&
+        !_controller.position.outOfRange) {
+      print("YEP END");
+      _bloc.fetchAllMovies();
+    }
+  }
+
+  ScrollController _controller;
   @override
   void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
     _bloc.fetchAllMovies();
     super.initState();
   }
@@ -30,12 +41,23 @@ class _MovieListState extends State<MovieList> {
         appBar: AppBar(
             title: Center(
                 child: Text("Most Popular Movies",
-                    style: Theme.of(context).textTheme.title))),
+                    style: Theme.of(context).textTheme.title)),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.arrow_upward),
+                onPressed: () {
+                  _controller.animateTo(0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeIn);
+                },
+              )
+            ]),
         body: StreamBuilder(
             stream: _bloc.movieStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return GridView.count(
+                    controller: _controller,
                     crossAxisCount: 2,
                     childAspectRatio: 0.7,
                     padding: const EdgeInsets.all(5.0),

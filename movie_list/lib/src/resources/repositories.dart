@@ -10,28 +10,30 @@ const _trailerURL = "https://api.themoviedb.org/3/movie";
 /// This class is the data handler, serves as a bridge between the Movie Database API and
 /// the BLoC.
 class Repository {
+  List<Movie> _movieList = List<Movie>();
   /// This method return a list of movie from the response of the API call
   List<Movie> getAllMovies(response) {
-    List<Movie> _movieList = List<Movie>();
+    List<Movie> _temp = List<Movie>();
     var results = json.decode(response)['results'];
 
     for (Map<String, dynamic> result in results) {
       Movie _movie = Movie(result);
 
-      _movieList.add(_movie);
+      _temp.add(_movie);
     }
+    _movieList += _temp;
 
     return _movieList;
   }
 
   /// This method use async/ await to fetch a list of movies from the Movie Database API
-  Future<List<Movie>> fetchMovie() async {
-    final response = await get("$_url&page=1");
+  Future<List<Movie>> fetchMovie(counter) async {
+    final response = await get("$_url&page=$counter");
 
     if (response.statusCode == 200) {
       return getAllMovies(response.body);
     }
-    throw Exception('Failed loading movie');
+    throw Exception('Loading Fail');
   }
 
   /// This method use async/ await to fetch the trailer url of a movie based on its id
