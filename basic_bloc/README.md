@@ -1,16 +1,35 @@
-# basic_bloc
+# Basic BLoC
 
-A new Flutter project.
+An App display a counter mechanism for the user to interact
 
-## Getting Started
+## Table of Contents
 
-This project is a starting point for a Flutter application.
+- [Introduction](#introduction)
+- [Technologies](#technologies)
+- [Requirements](#requirements)
+- [Instruction](#instruction)
 
-A few resources to get you started if this is your first Flutter project:
+## Introduction
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+This app allows users to increase or decrease the counter value with 2 buttons
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Technologies
+
+This project is created with Flutter using the following packages:
+
+- random_color package
+- holding_gesture package
+
+## Requirements
+
+Before running the app, it is required that you have these packages installed locally:
+
+- Flutter v1.5.4 ([Follow the guide here](https://flutter.dev/docs/get-started/install))
+- Run ```flutter pub get``` inside the app's directory to get neccessary packages
+- Run ```flutter run``` to start installing and running the app
+
+## Instruction
+
+This app is fairly simple. You can increase or decrease the value of the counter based on the 2 gestures: Tap or hold the +/ - button.
+
+The Screen background will change randomly on the counter's value change.

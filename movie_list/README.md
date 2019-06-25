@@ -1,16 +1,43 @@
-# movie_list
+# Movie List
 
-A new Flutter project.
+An app to browse the most popular movies
 
-## Getting Started
+## Table of Contents
 
-This project is a starting point for a Flutter application.
+- [Introduction](#introduction)
+- [Technologies](#technologies)
+- [Requirements](#requirements)
+- [App Structure](#appstructure)
+- [Instruction](#instruction)
 
-A few resources to get you started if this is your first Flutter project:
+## Introduction
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Movie List displays the trending movies currently based on the Movie Database API.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Technologies
+
+This project is created with Flutter using the following packages:
+
+- rxdart package
+- http package
+- url_launcher
+
+## Requirements
+
+Before running the app, it is required that you have these packages installed locally:
+
+- Flutter v1.5.4 ([Follow the guide here](https://flutter.dev/docs/get-started/install))
+- Run ```flutter pub get``` inside the app's directory to get neccessary packages
+- Run ```flutter run``` to start installing and running the app (both your computer and testing phone must be online)
+
+## Appstructure
+
+The app is built followed the following structure:
+
+Data Provider -> Repository (handling API call and raw data process) -> BLoC (provide state management) -> UI Screen (display interfaces to user)
+
+## Instruction
+
+The main screen displays the list of most popular movies.
+
+You can click on each movie to read the description and watch the trailer.

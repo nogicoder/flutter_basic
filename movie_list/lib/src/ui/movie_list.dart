@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:movie_browser/src/bloc/movie_list_bloc.dart';
 import 'package:movie_browser/src/ui/movie_detail.dart';
 
-
 /// This widget displays the main screen with a list of movie
 class MovieList extends StatefulWidget {
   @override
@@ -11,31 +10,7 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-
   MovieListBloc _bloc = MovieListBloc();
-  
-  displayMovies(context, data) {
-    return GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 0.7,
-        padding: const EdgeInsets.all(5.0),
-        crossAxisSpacing: 5.0,
-        mainAxisSpacing: 5.0,
-        children: List.generate(data.length, (index) {
-          return GestureDetector(
-              child: Image.network(
-                "https://image.tmdb.org/t/p/w185${data[index].posterPath}",
-                fit: BoxFit.cover,
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            MovieDetail(data[index])));
-              });
-        }));
-  }
 
   @override
   void initState() {
@@ -54,12 +29,32 @@ class _MovieListState extends State<MovieList> {
     return Scaffold(
         appBar: AppBar(
             title: Center(
-                child: Text("Most Popular Movies", style: Theme.of(context).textTheme.title))),
+                child: Text("Most Popular Movies",
+                    style: Theme.of(context).textTheme.title))),
         body: StreamBuilder(
             stream: _bloc.movieStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                return displayMovies(context, snapshot.data);
+                return GridView.count(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                    padding: const EdgeInsets.all(5.0),
+                    crossAxisSpacing: 5.0,
+                    mainAxisSpacing: 5.0,
+                    children: List.generate(snapshot.data.length, (index) {
+                      return GestureDetector(
+                          child: Image.network(
+                            "https://image.tmdb.org/t/p/w185${snapshot.data[index].posterPath}",
+                            fit: BoxFit.cover,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MovieDetail(snapshot.data[index])));
+                          });
+                    }));
               }
               return Center(child: CircularProgressIndicator());
             }));
